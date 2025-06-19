@@ -65,22 +65,26 @@ int ip_black_list(struct sr_ip_hdr *iph)
 	char ip_blacklist[20] = "10.0.2.0"; /* DO NOT MODIFY */
 	char mask[20] = "255.255.255.0"; /* DO NOT MODIFY */
 	/**************** fill in code here *****************/
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	return 0;
+	uint32_t ip, prefix, src, dst;
+	struct in_addr addr;
+	ip = ntohl(inet_addr(ip_black_list));
+	prefix = ntohl(inet_addr(mask));
+	src = ntohl(iph->ip_src);
+	dst = ntohl(iph->ip_dst);
+
+	if ((src & prefix) == (ip & prefix)) {
+		addr.s_addr = iph->ip_src;
+		printf("[IP blocked] : %s\n", inet_ntoa(addr));
+		return 1;
+	}
+	else if ((dst & prefix) == (ip & prefix)) {
+		addr.s_addr = iph->ip_dst;
+		printf("[IP blocked] : %s\n", inet_ntoa(addr));
+		return 1;
+	}
+	else {
+		return 0;
+	}
 	/****************************************************/
 }
 
