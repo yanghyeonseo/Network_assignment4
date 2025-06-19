@@ -60,6 +60,10 @@ void sr_arpcache_handle_arpreq(struct sr_instance *sr, struct sr_arpreq *req)
             /**************** fill in code here *****************/
             for (pck = req->packets; pck; pck = pck->next) {
                 buf = pck->buf;
+                len = pck->len;
+                /* validation */
+                if (len < sizeof(struct sr_ethernet_hdr) + sizeof(struct sr_ip_hdr))
+                    return;
                 i_hdr0 = (struct sr_ip_hdr *)(((uint8_t *)buf) + sizeof(struct sr_ethernet_hdr));
 
                 rtentry = sr_findLPMentry(sr->routing_table, i_hdr0->ip_src);
