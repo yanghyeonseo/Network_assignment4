@@ -101,7 +101,7 @@ static uint8_t *create_icmp_packet(struct sr_instance *sr,
 	ict3_hdr->icmp_type = type;
 	ict3_hdr->icmp_code = code;
 	ict3_hdr->unused = 0;
-	ict3_hdr->next_mtu = 0;				// Maximum Transmission Unit
+	ict3_hdr->next_mtu = 0;				/* Maximum Transmission Unit */
 	memcpy(ict3_hdr->data, i_hdr0, ICMP_DATA_SIZE);
 	ict3_hdr->icmp_sum = 0;
 	ict3_hdr->icmp_sum = cksum(ict3_hdr, sizeof(struct sr_icmp_t3_hdr));
@@ -109,10 +109,10 @@ static uint8_t *create_icmp_packet(struct sr_instance *sr,
 	/* IP */
 	i_hdr->ip_v = 0x4;
 	i_hdr->ip_hl = 0x5;
-	i_hdr->ip_tos = 0;					// Type Of Service
+	i_hdr->ip_tos = 0;					/* Type Of Service */
 	i_hdr->ip_len = htons(sizeof(struct sr_ip_hdr) + sizeof(struct sr_icmp_t3_hdr));
-	i_hdr->ip_id = 0;					// Identifier
-	i_hdr->ip_off = 0;					// Fragment Off
+	i_hdr->ip_id = 0;					/* Identifier */
+	i_hdr->ip_off = 0;					/* Fragment Off */
 	i_hdr->ip_ttl = INIT_TTL;
 	i_hdr->ip_p = ip_protocol_icmp;
 	i_hdr->ip_src = ifc->ip;
