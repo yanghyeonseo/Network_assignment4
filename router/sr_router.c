@@ -195,11 +195,9 @@ void sr_handlepacket(struct sr_instance *sr,
 	uint16_t checksum;	/* checksum, for validation */
 
 	struct sr_ethernet_hdr *e_hdr0, *e_hdr; /* Ethernet headers */
-	struct sr_ip_hdr *i_hdr0, *i_hdr;		/* IP headers */
+	struct sr_ip_hdr *i_hdr0;		/* IP headers */
 	struct sr_arp_hdr *a_hdr0, *a_hdr;		/* ARP headers */
 	struct sr_icmp_hdr *ic_hdr0;			/* ICMP header */
-	struct sr_icmp_t3_hdr *ict3_hdr;		/* ICMP type3 header */
-	struct sr_icmp_t11_hdr *ict11_hdr;		/* ICMP type11 header */
 
 	struct sr_if *ifc;			  /* router interface */
 	uint32_t ipaddr;			  /* IP address */
