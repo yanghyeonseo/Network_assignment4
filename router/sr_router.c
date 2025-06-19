@@ -213,6 +213,8 @@ void sr_handlepacket(struct sr_instance *sr,
 		return;
 	len_r = len - sizeof(struct sr_ethernet_hdr);
 	e_hdr0 = (struct sr_ethernet_hdr *)packet; /* e_hdr0 set */
+	/* DEBUG */
+	print_hdrs(packet, len);
 
 	/* IP packet arrived */
 	if (e_hdr0->ether_type == htons(ethertype_ip))
@@ -317,11 +319,11 @@ void sr_handlepacket(struct sr_instance *sr,
 					return;
 
 				/**************** fill in code here *****************/
+				/* generate ICMP Port unreachable (type 3, code 3) packet */
 				new_pck = create_icmp_packet(sr, interface, i_hdr0, 3, 3);
 				new_len = sizeof(struct sr_ethernet_hdr) + sizeof(struct sr_ip_hdr) + sizeof(struct sr_icmp_t3_hdr);
 
 				forward_packet(sr, new_pck, new_len);
-
 				/* done */
 				free(new_pck);
 				/*****************************************************/
@@ -344,12 +346,11 @@ void sr_handlepacket(struct sr_instance *sr,
 				if (i_hdr0->ip_ttl == 1)
 				{
 					/**************** fill in code here *****************/
-					/* generate ICMP time exceeded packet */
+					/* generate ICMP Time exceeded (type 11, code 0) packet */
 					new_pck = create_icmp_packet(sr, interface, i_hdr0, 11, 0);
 					new_len = sizeof(struct sr_ethernet_hdr) + sizeof(struct sr_ip_hdr) + sizeof(struct sr_icmp_t11_hdr);
 
 					forward_packet(sr, new_pck, new_len);
-
 					/* done */
 					free(new_pck);
 					/*****************************************************/
@@ -372,6 +373,7 @@ void sr_handlepacket(struct sr_instance *sr,
 			else
 			{
 				/**************** fill in code here *****************/
+				/* generate ICMP Destination unreachable (type 3, code 0) packet */
 				new_pck = create_icmp_packet(sr, interface, i_hdr0, 3, 0);
 				new_len = sizeof(struct sr_ethernet_hdr) + sizeof(struct sr_ip_hdr) + sizeof(struct sr_icmp_t3_hdr);
 

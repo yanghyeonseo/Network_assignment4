@@ -70,7 +70,7 @@ void sr_arpcache_handle_arpreq(struct sr_instance *sr, struct sr_arpreq *req)
                 if (rtentry != NULL) {
                     ifc = sr_get_interface(sr, rtentry->interface);
 
-                    /* generate ICMP packet */
+                    /* generate ICMP Destination host unreachable (type 3, code 1) packet */
                     unsigned int new_len = sizeof(struct sr_ethernet_hdr) + sizeof(struct sr_ip_hdr) + sizeof(struct sr_icmp_t3_hdr);
                     uint8_t *new_pck = calloc(1, new_len);
                     e_hdr = (struct sr_ethernet_hdr *)new_pck;
@@ -150,7 +150,7 @@ void sr_arpcache_handle_arpreq(struct sr_instance *sr, struct sr_arpreq *req)
                 a_hdr->ar_op = htons(arp_op_request);
                 memcpy(a_hdr->ar_sha, ifc->addr, ETHER_ADDR_LEN);
                 a_hdr->ar_sip = ifc->ip;
-                memset(a_hdr->ar_tha, 0x00, ETHER_ADDR_LEN);
+                memset(a_hdr->ar_tha, 0xff, ETHER_ADDR_LEN);
                 a_hdr->ar_tip = req->ip;
 
                 /* Ethernet */
