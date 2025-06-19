@@ -150,7 +150,7 @@ void sr_arpcache_handle_arpreq(struct sr_instance *sr, struct sr_arpreq *req)
                 a_hdr->ar_op = htons(arp_op_request);
                 memcpy(a_hdr->ar_sha, ifc->addr, ETHER_ADDR_LEN);
                 a_hdr->ar_sip = ifc->ip;
-                memset(a_hdr->ar_tha, 0xff, ETHER_ADDR_LEN);
+                memset(a_hdr->ar_tha, 0x00, ETHER_ADDR_LEN);
                 a_hdr->ar_tip = req->ip;
 
                 /* Ethernet */
