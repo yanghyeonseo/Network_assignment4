@@ -213,8 +213,6 @@ void sr_handlepacket(struct sr_instance *sr,
 		return;
 	len_r = len - sizeof(struct sr_ethernet_hdr);
 	e_hdr0 = (struct sr_ethernet_hdr *)packet; /* e_hdr0 set */
-	/* DEBUG */
-	print_hdrs(packet, len);
 
 	/* IP packet arrived */
 	if (e_hdr0->ether_type == htons(ethertype_ip))

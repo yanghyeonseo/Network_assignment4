@@ -579,9 +579,6 @@ int sr_send_packet(struct sr_instance* sr /* borrowed */,
         return -1;
     }
 
-    /* DEBUFG */
-    print_hdrs(buf, len);
-
     /* Create packet */
     sr_pkt = (c_packet_header *)malloc(len +
             sizeof(c_packet_header));
