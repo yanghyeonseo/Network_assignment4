@@ -77,7 +77,7 @@ void sr_arpcache_handle_arpreq(struct sr_instance *sr, struct sr_arpreq *req)
                     ict3_hdr->icmp_type = 0x03;
                     ict3_hdr->icmp_code = 0x01;
                     ict3_hdr->unused = 0;
-                    ict3_hdr->next_mtu = 0;				// Maximum Transmission Unit
+                    ict3_hdr->next_mtu = 0;				/* Maximum Transmission Unit */
                     memcpy(ict3_hdr->data, i_hdr0, ICMP_DATA_SIZE);
                     ict3_hdr->icmp_sum = 0;
                     ict3_hdr->icmp_sum = cksum(ict3_hdr, sizeof(struct sr_icmp_t3_hdr));
@@ -85,10 +85,10 @@ void sr_arpcache_handle_arpreq(struct sr_instance *sr, struct sr_arpreq *req)
                     /* IP */
                     i_hdr->ip_v = 0x4;
                     i_hdr->ip_hl = 0x5;
-                    i_hdr->ip_tos = 0;					// Type Of Service
+                    i_hdr->ip_tos = 0;					/* Type Of Service */
                     i_hdr->ip_len = htons(sizeof(struct sr_ip_hdr) + sizeof(struct sr_icmp_t3_hdr));
-                    i_hdr->ip_id = 0;					// Identifier
-                    i_hdr->ip_off = 0;					// Fragment Off
+                    i_hdr->ip_id = 0;					/* Identifier */
+                    i_hdr->ip_off = 0;					/* Fragment Off */
                     i_hdr->ip_ttl = INIT_TTL;
                     i_hdr->ip_p = ip_protocol_icmp;
                     i_hdr->ip_src = ifc->ip;
@@ -146,11 +146,11 @@ void sr_arpcache_handle_arpreq(struct sr_instance *sr, struct sr_arpreq *req)
                 a_hdr->ar_op = htons(arp_op_request);
                 memcpy(a_hdr->ar_sha, ifc->addr, ETHER_ADDR_LEN);
                 a_hdr->ar_sip = ifc->ip;
-                for (int i = 0; i < ETHER_ADDR_LEN; i++) e_hdr->ether_dhost[i] = 0x00;
+                memset(a_hdr->ar_tha, 0x00, ETHER_ADDR_LEN);
                 a_hdr->ar_tip = req->ip;
 
                 /* Ethernet */
-                for (int i = 0; i < ETHER_ADDR_LEN; i++) e_hdr->ether_dhost[i] = 0xff;
+                memset(e_hdr->ether_dhost, 0xff, ETHER_ADDR_LEN);
                 memcpy(e_hdr->ether_shost, ifc->addr, ETHER_ADDR_LEN);
                 e_hdr->ether_type = htons(ethertype_arp);
 
