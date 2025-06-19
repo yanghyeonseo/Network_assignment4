@@ -67,7 +67,7 @@ int ip_black_list(struct sr_ip_hdr *iph)
 	/**************** fill in code here *****************/
 	uint32_t ip, prefix, src, dst;
 	struct in_addr addr;
-	ip = ntohl(inet_addr(ip_black_list));
+	ip = ntohl(inet_addr(ip_blacklist));
 	prefix = ntohl(inet_addr(mask));
 	src = ntohl(iph->ip_src);
 	dst = ntohl(iph->ip_dst);
